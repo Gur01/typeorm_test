@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+const App = () =>  {
+  const [state, setState] = React.useState({
+    name: '',
+    email: '',  
+    password: '',
+  })
+
+  const handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setState({...state, name: e.currentTarget.value});
+  }
+  const handleEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setState({...state, email: e.currentTarget.value});
+  }
+  const handlePasswordChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setState({...state, password: e.currentTarget.value});
+  }
+
+  const handleSave = () => {
+    console.log(state)
+    fetch('http://localhost:4000', {method: 'POST', mode: 'no-cors', headers: {
+      // 'Content-Type': 'application/json'  
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify(state)
+  }).then(response => console.log(response.json()))
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div><input type="text" value={state.name} onChange={handleNameChange}/>name</div>
+      <div><input type="text" value={state.email} onChange={handleEmailChange}/>email</div>
+      <div><input type="text" value={state.password} onChange={handlePasswordChange}/>password</div>
+      <button onClick={handleSave}>save</button>
     </div>
   );
 }
