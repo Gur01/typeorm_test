@@ -2,11 +2,13 @@ import express from 'express';
 import morgan from 'morgan';
 import createError from 'http-errors';
 import dotenv from "dotenv";
-
+import router from './routes';
 dotenv.config();
 
 
 const app = express();
+//router
+app.use('/', router.test);
 
 // logger info
 app.use(morgan('dev'));
