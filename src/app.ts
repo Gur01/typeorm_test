@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Response, Request, NextFunction } from 'express';
 import morgan from 'morgan';
 import createError from 'http-errors';
 import dotenv from "dotenv";
@@ -14,7 +14,7 @@ app.use('/', router.test);
 app.use(morgan('dev'));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function(req: Request, res: Response, next:NextFunction) {
     next(createError(404));
   });
 
