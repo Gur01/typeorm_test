@@ -6,11 +6,11 @@ import router from './routes';
 const bodyParser = require('body-parser');
 dotenv.config();
 
-
 const app = express();
+
 //router
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/', router.test);
+app.use('/', router.users);
 
 // logger info
 app.use(morgan('dev'));
