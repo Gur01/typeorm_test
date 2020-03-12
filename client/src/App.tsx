@@ -17,14 +17,21 @@ const App = () =>  {
     setState({...state, password: e.currentTarget.value});
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     console.log(state)
-    fetch('http://localhost:4000', {method: 'POST', mode: 'no-cors', headers: {
-      // 'Content-Type': 'application/json'  
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify(state)
-  }).then(response => console.log(response.json()))
+    const response = await fetch('http://localhost:4000', 
+    { 
+      method: 'POST', 
+      mode: 'no-cors', 
+      headers: {
+      'Content-Type': 'application/json'  
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(state)
+    });
+    const res  = await response.json();
+    console.log(res);
+    return res;
   }
 
   return (
