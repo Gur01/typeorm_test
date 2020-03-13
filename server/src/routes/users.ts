@@ -9,12 +9,13 @@ router.get('/', async (req: Request, res: Response) => {
     const userRepository = getRepository(Users);
     const allUsers = await userRepository.find();
     console.log(allUsers);
-    // res.send(users);
+    res.send("Hello");
 });
+
 router.post('/', (req: Request, res: Response) => {
     const {name, email, password} = req.body;
         
-        console.log(name,req );
+        console.log(name,req.body );
     
 });
 

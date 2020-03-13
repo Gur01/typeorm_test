@@ -1,0 +1,26 @@
+{
+  "name": "typeorm_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-start": "npm start --prefix ./client",
+    "server-start": "npm start --prefix ./server",
+    "start": "concurrently --kill-others \"npm:client-start\" \"npm:server-start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gur01/typeorm_test.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gur01/typeorm_test/issues"
+  },
+  "homepage": "https://github.com/Gur01/typeorm_test#readme",
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  }
+}
