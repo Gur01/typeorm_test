@@ -14,8 +14,9 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.post('/', (req: Request, res: Response) => {
     const {name, email, password} = req.body;
-        
-        console.log(name,req.body );
+    
+    console.log(name,req.body );
+    res.send("ok");
     
 });
 
