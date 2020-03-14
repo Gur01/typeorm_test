@@ -11,11 +11,17 @@ router.get('/', async (req: Request, res: Response) => {
     res.send('Hello');
 });
 
-router.post('/', (req: Request, res: Response) => {
-    const { MyKey, name } = req.body;
+router.post('/', async (req: Request, res: Response) => {
+    const { name, email, password } = req.body;
+    console.log(req.body);
 
-    console.log(MyKey, name, req.body);
-    res.send('ok');
+    const userRepository = getRepository(Users);
+    try {
+        const user = await userRepository.save({ name, email, password });
+        res.json(user);
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 export default router;

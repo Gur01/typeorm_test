@@ -14,6 +14,6 @@ export default class List {
     @Column()
     status: boolean;
 
-    @Column({ type: 'timestamp' })
-    date: number;
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    date: string;
 }

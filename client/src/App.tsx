@@ -11,30 +11,29 @@ const App = () => {
     const handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
         setState({ ...state, name: e.currentTarget.value });
     };
+
     const handleEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
         setState({ ...state, email: e.currentTarget.value });
     };
+
     const handlePasswordChange = (e: React.FormEvent<HTMLInputElement>) => {
         setState({ ...state, password: e.currentTarget.value });
     };
-    const data = {
-        MyKey: 'My Value',
-        name: 'john',
-    };
-    const handleSave = async () => {
-        console.log(state);
-        const response = await fetch('http://localhost:4000', {
-            method: 'post',
-            mode: 'no-cors',
-            headers: {
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: qs.stringify(data),
-        });
-        console.log(qs.stringify(data));
 
-        return await response.json();
+    const handleSave = async () => {
+        try {
+            const request = await fetch('http://localhost:4000', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: qs.stringify(state),
+            });
+
+            const user = await request.json();
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (

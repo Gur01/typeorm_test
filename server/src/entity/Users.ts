@@ -14,6 +14,6 @@ export default class Users {
     @Column({ type: 'varchar', length: 10 })
     password: string;
 
-    @Column({ type: 'timestamp' })
-    registerDate: number;
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    registerDate: string;
 }
