@@ -1,4 +1,5 @@
 import React from 'react';
+import qs from 'querystring';
 
 const App = () => {
     const [state, setState] = React.useState({
@@ -16,7 +17,10 @@ const App = () => {
     const handlePasswordChange = (e: React.FormEvent<HTMLInputElement>) => {
         setState({ ...state, password: e.currentTarget.value });
     };
-
+    const data = {
+        MyKey: 'My Value',
+        name: 'john',
+    };
     const handleSave = async () => {
         console.log(state);
         const response = await fetch('http://localhost:4000', {
@@ -26,8 +30,10 @@ const App = () => {
                 'Cache-Control': 'no-cache',
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: '{"MyKey":"My Value"}',
+            body: qs.stringify(data),
         });
+        console.log(qs.stringify(data));
+
         return await response.json();
     };
 
