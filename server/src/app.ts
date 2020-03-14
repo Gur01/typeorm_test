@@ -1,7 +1,7 @@
 import express, { Response, Request, NextFunction } from 'express';
 import morgan from 'morgan';
 // import createError from 'http-errors';
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 import router from './routes';
 dotenv.config();
 const app = express();

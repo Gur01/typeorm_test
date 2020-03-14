@@ -1,8 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export default class Text {
-
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
@@ -15,10 +14,6 @@ export default class Text {
     @Column()
     status: boolean;
 
-    @Column({type:'timestamp'})
+    @Column({ type: 'timestamp' })
     date: number;
-
-
-
-
 }

@@ -1,21 +1,19 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export default class List {
-
     @PrimaryGeneratedColumn('uuid')
     id: number;
 
     @Column()
     userId: number;
 
-    @Column({type: 'json'})
+    @Column({ type: 'json' })
     list: string;
 
     @Column()
     status: boolean;
 
-    @Column({type:'timestamp'})
+    @Column({ type: 'timestamp' })
     date: number;
-
 }

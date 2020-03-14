@@ -1,17 +1,13 @@
 import app from './app';
-import "reflect-metadata";
-import {createConnection} from "typeorm";
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
 
 const port = process.env.PORT;
 
-createConnection().then(()=> {
-    app.listen(port, ()=> {
-        console.log(
-            "  App is running at http://localhost:%d in %s mode",
-            port,
-            app.get("env")
-        );
+createConnection()
+    .then(() => {
+        app.listen(port, () => {
+            console.log('  App is running at http://localhost:%d in %s mode', port, app.get('env'));
+        });
     })
-
-}).catch(error => console.log(error));
-
+    .catch(error => console.log(error));

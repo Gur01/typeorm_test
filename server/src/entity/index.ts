@@ -1,3 +1,3 @@
-export {default as List} from "./List";
-export {default as Text} from "./Text";
-export {default as Users} from "./Users";
+export { default as List } from './List';
+export { default as Text } from './Text';
+export { default as Users } from './Users';
