@@ -1,6 +1,7 @@
 import express, { Router, Response, Request } from 'express';
 import { Users } from '../entity';
 import { getRepository } from 'typeorm';
+import bcrypt from 'bcrypt';
 
 const router: Router = express.Router();
 
@@ -31,12 +32,16 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
-    const userRepository = getRepository(Users);
     try {
-        const user = await userRepository.save({ name, email, password });
+        const salt = String(bcrypt.genSalt());
+        const hashedPassword = await bcrypt.hash(password, salt);
+        console.log(salt, hashedPassword);
+
+        const userRepository = getRepository(Users);
+        const user = await userRepository.save({ name, email, hashedPassword });
         res.json(user);
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
     }
 });
 

@@ -35,7 +35,7 @@ const App = () => {
 
     const handleSave = async () => {
         try {
-            await fetch('http://localhost:4000', {
+            await fetch('http://localhost:4000/api/users', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const App = () => {
 
     const getUsers = async () => {
         try {
-            const request = await fetch('http://localhost:4000');
+            const request = await fetch('http://localhost:4000/api/users');
 
             const users = await request.json();
             setUsers(JSON.parse(users));
