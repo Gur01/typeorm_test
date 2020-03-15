@@ -11,7 +11,7 @@ export default class List {
     @Column({ type: 'json' })
     list: string;
 
-    @Column()
+    @Column({ default: true })
     status: boolean;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

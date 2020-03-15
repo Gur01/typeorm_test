@@ -18,7 +18,8 @@ app.use((req, res, next) => {
     next();
 });
 //router
-app.use('/', router.users);
+app.use('/api/users', router.users);
+app.use('/api/lists', router.lists);
 
 // catch 404 and forward to error handler
 // app.use(function(req: Request, res: Response, next:NextFunction) {
