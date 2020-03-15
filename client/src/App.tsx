@@ -1,5 +1,4 @@
 import React from 'react';
-import qs from 'querystring';
 
 const App = () => {
     const [state, setState] = React.useState({
@@ -7,6 +6,20 @@ const App = () => {
         email: '',
         password: '',
     });
+
+    interface Users {
+        id: number;
+        name: string;
+        email: string;
+        password: string;
+        registerDate: string;
+    }
+
+    const [users, setUsers] = React.useState<any>([]);
+
+    React.useEffect(() => {
+        getUsers();
+    }, []);
 
     const handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
         setState({ ...state, name: e.currentTarget.value });
@@ -22,17 +35,28 @@ const App = () => {
 
     const handleSave = async () => {
         try {
-            const request = await fetch('http://localhost:4000', {
+            await fetch('http://localhost:4000', {
                 method: 'post',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/json',
                 },
-                body: qs.stringify(state),
+                body: JSON.stringify(state),
             });
 
-            const user = await request.json();
+            getUsers();
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const getUsers = async () => {
+        try {
+            const request = await fetch('http://localhost:4000');
+
+            const users = await request.json();
+            setUsers(JSON.parse(users));
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -51,6 +75,33 @@ const App = () => {
                 password
             </div>
             <button onClick={handleSave}>save</button>
+
+            {users.length && (
+                <table style={{ width: '100%', textAlign: 'center' }}>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>email</th>
+                            <th>password</th>
+                            <th>date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map((user, id) => {
+                            return (
+                                <tr key={id}>
+                                    <td>{user.id}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.password}</td>
+                                    <td>{user.registerDate}</td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };

@@ -7,8 +7,8 @@ const router: Router = express.Router();
 router.get('/', async (req: Request, res: Response) => {
     const userRepository = getRepository(Users);
     const allUsers = await userRepository.find();
-    console.log(allUsers);
-    res.send('Hello');
+
+    res.json(JSON.stringify(allUsers));
 });
 
 router.post('/', async (req: Request, res: Response) => {
