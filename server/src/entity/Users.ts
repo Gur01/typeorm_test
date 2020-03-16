@@ -11,7 +11,7 @@ export default class Users {
     @Column({ type: 'varchar', length: 25 })
     email: string;
 
-    @Column({ type: 'varchar', length: 10 })
+    @Column({ type: 'varchar'})
     password: string;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

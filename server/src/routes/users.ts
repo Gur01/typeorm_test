@@ -32,17 +32,66 @@ router.get('/:id', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
+    if(!name && !email && !password) {
+        res.status(400).send();
+    }
+
+    const userRepository = getRepository(Users);
+
     try {
-        const salt = String(bcrypt.genSalt());
+        const user = await userRepository.findOne({email});
+
+        if(!user) {
+            res.status(400).send('User with this email already exists');
+        } 
+
+        const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         console.log(salt, hashedPassword);
-
+    
         const userRepository = getRepository(Users);
-        const user = await userRepository.save({ name, email, hashedPassword });
-        res.json(user);
+        await userRepository.save({ name, email, password: hashedPassword });
+        res.json(hashedPassword);
     } catch (error) {
+        res.status(500).send();
         console.log(error);
     }
+
 });
+
+router.post('/login', async(req: Request, res: Response) => {
+    const {email, password} = req.body;
+
+    if(!email || !email) {
+        res.status(500).send('wrong credentials');
+    }
+
+    const userRepository = getRepository(Users);
+
+    try {
+        const user = await userRepository.findOne({email});
+
+        if(!user) {
+
+            res.status(400).send('wrong credentials');
+
+        } else {
+
+            const checking = await bcrypt.compare(password, user.password);
+
+            if(checking) {
+                res.status(200).send('success')
+            } else {
+                res.status(400).send('not allowed')
+            }
+        }
+
+    } catch (error) {
+        console.log(error);
+        
+    }
+
+
+})
 
 export default router;
