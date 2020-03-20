@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Home = () => {
-    
     interface Users {
         id: number;
         name: string;
@@ -10,7 +9,7 @@ const Home = () => {
         registerDate: string;
     }
 
-    const [users, setUsers] = React.useState<any>([]);
+    const [users, setUsers] = React.useState<Users[]>([]);
 
     const getUsers = async () => {
         try {
@@ -26,8 +25,6 @@ const Home = () => {
     React.useEffect(() => {
         getUsers();
     }, []);
-
-
 
     return (
         <div className="App">

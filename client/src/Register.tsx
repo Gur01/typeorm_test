@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Register = ()=> {
-
+const Register = () => {
     const [state, setState] = React.useState({
         name: '',
         email: '',
@@ -20,30 +19,40 @@ const Register = ()=> {
         setState({ ...state, password: e.currentTarget.value });
     };
 
-    const handleSave = async (event) => {
+    const handleSave = async event => {
         event.preventDefault();
         try {
-            await fetch('http://localhost:4000/api/users', {
+            const response = await fetch('http://localhost:4000/api/users/register', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(state),
             });
+
+            const token = await response.text();
+
+            localStorage.setItem('token', token);
         } catch (error) {
             console.error(error);
         }
     };
 
-
     return (
         <form>
-            <p><input type="text" value={state.name} onChange={handleNameChange} /> name</p>
-            <p><input type="text" value={state.email} onChange={handleEmailChange} /> email</p>
-            <p><input type="text" value={state.password} onChange={handlePasswordChange} />password</p>
+            <p>
+                <input type="text" value={state.name} onChange={handleNameChange} /> name
+            </p>
+            <p>
+                <input type="text" value={state.email} onChange={handleEmailChange} /> email
+            </p>
+            <p>
+                <input type="text" value={state.password} onChange={handlePasswordChange} />
+                password
+            </p>
             <button onClick={handleSave}>Create account</button>
         </form>
-    )
-}
+    );
+};
 
 export default Register;

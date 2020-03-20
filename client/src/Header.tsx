@@ -1,11 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const Header = () => {
     return (
-        <header>
+        <CustomHeader>
             <h1>hello userName</h1>
-        </header>
-    )
-}
+        </CustomHeader>
+    );
+};
+
+const CustomHeader = styled.header`
+    text-align: right;
+`;
 
 export default Header;
