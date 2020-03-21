@@ -77,14 +77,19 @@ router.post('/login', async (req: Request, res: Response) => {
         const user = await userRepository.findOne({ email });
 
         if (!user) {
-            res.status(400).send('wrong credentials');
+            res.status(401).send('Invalid username or password');
         } else {
             const checking = await bcrypt.compare(password, user.password);
 
             if (checking) {
-                res.status(200).send('success');
+                const token = jwt.sign(
+                    { user: { id: user.id } },
+                    process.env.ACCESS_TOKEN_SECRET as string,
+                );
+
+                res.send(token);
             } else {
-                res.status(400).send('not allowed');
+                res.status(401).send('Invalid username or password');
             }
         }
     } catch (error) {

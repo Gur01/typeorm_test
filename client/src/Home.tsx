@@ -1,4 +1,8 @@
 import React from 'react';
+import Header from './Header';
+import request from './api';
+
+console.log(request);
 
 const Home = () => {
     interface Users {
@@ -11,23 +15,22 @@ const Home = () => {
 
     const [users, setUsers] = React.useState<Users[]>([]);
 
-    const getUsers = async () => {
-        try {
-            const request = await fetch('http://localhost:4000/api/users');
-
-            const users = await request.json();
-            setUsers(JSON.parse(users));
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const getUsers = async () => {
+    //     try {
+    //         const users = await request.get('api/users');
+    //         setUsers(users);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     React.useEffect(() => {
-        getUsers();
+        request.getUsers().then(users => setUsers(users));
     }, []);
 
     return (
         <div className="App">
+            <Header />
             {users.length && (
                 <table style={{ width: '100%', textAlign: 'center' }}>
                     <thead>
