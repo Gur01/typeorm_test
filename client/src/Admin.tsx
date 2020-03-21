@@ -1,6 +1,7 @@
 import React from 'react';
 import request from './api';
 import Header from './Header';
+
 const Home = () => {
     interface Users {
         id: number;
@@ -12,18 +13,16 @@ const Home = () => {
 
     const [users, setUsers] = React.useState<Users[]>([]);
 
-    // React.useEffect(() => {
-    //     request.getUsers().then(users => {
-    //         setUsers(users);
-    //     });
-    // }, []);
-
-    React.useEffect(() => {}, []);
+    React.useEffect(() => {
+        request.getUsers().then(users => {
+            setUsers(users);
+        });
+    }, []);
 
     return (
         <div className="App">
             <Header />
-            {/* {users.length && (
+            {users.length && (
                 <table style={{ width: '100%', textAlign: 'center' }}>
                     <thead>
                         <tr>
@@ -48,7 +47,7 @@ const Home = () => {
                         })}
                     </tbody>
                 </table>
-            )} */}
+            )}
         </div>
     );
 };

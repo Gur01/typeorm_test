@@ -19,19 +19,40 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
-router.get('/:id', async (req: Request, res: Response) => {
+// router.get('/user/:id', async (req: Request, res: Response) => {
+//     const userRepository = getRepository(Users);
+//     const id = Number(req.params.id);
+
+//     try {
+//         const user = await userRepository.findOne({ id });
+//         res.json(user);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// });
+interface NewRequest extends Request {
+    user: { id: number };
+    iat: number;
+}
+
+router.get('/user/profile', auth, async (req: any, res: Response) => {
+    const userId = req.user.id;
     const userRepository = getRepository(Users);
-    const id = Number(req.params.id);
 
     try {
-        const user = await userRepository.findOne({ id });
+        const user = await userRepository.findOne({
+            select: ['name', 'email'],
+            where: { id: userId },
+        });
+        console.log(user);
+
         res.json(user);
     } catch (error) {
         console.log(error);
     }
 });
 
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/user/register', async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
 
     if (!name && !email && !password) {
@@ -64,7 +85,7 @@ router.post('/register', async (req: Request, res: Response) => {
     }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/user/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     if (!email || !email) {

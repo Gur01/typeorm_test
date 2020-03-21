@@ -2,7 +2,7 @@ export default function(request) {
     return {
         getUsers: async function() {
             try {
-                const users = await request.get('api/user');
+                const users = await request.get('users');
 
                 return users;
             } catch (error) {
@@ -12,9 +12,19 @@ export default function(request) {
 
         loginUser: async function(body) {
             try {
-                const token = await request.post('api/user/login', body);
+                const token = await request.post('users/user/login', body);
 
                 return token;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        getUserProfile: async function() {
+            try {
+                const user = await request.get('users/user/profile');
+                console.log(user);
+
+                return user;
             } catch (error) {
                 console.log(error);
             }

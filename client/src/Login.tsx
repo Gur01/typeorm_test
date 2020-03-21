@@ -3,8 +3,8 @@ import request from './api';
 
 const Login = ({ history }) => {
     const [state, setState] = React.useState({
-        email: 'vas',
-        password: '1111',
+        email: '',
+        password: '',
     });
 
     const handleEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -20,6 +20,7 @@ const Login = ({ history }) => {
 
         request.loginUser(state).then(token => {
             localStorage.setItem('token', token);
+
             history.push('/');
         });
     };
