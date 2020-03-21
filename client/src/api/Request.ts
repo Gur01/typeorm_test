@@ -7,14 +7,15 @@ class Request {
         this.baseUrl = baseUrl;
     }
 
-    async get<T>(path: string, options?: RequestInit): Promise<T> {
+    async get(path: string, options?: RequestInit) {
         if (options) {
             this.options = { ...this.options, ...options };
         }
 
         try {
             const request = await this.makeRequest(`${this.baseUrl}/${path}`, 'get');
-            return JSON.parse(request);
+
+            return request;
         } catch (error) {
             throw new Error(error);
         }
@@ -33,29 +34,21 @@ class Request {
         }
     }
 
-    // private async parseData(method: string, data: string) {
-    //     switch (method) {
-    //         case 'post':
-    //             data = JSON.stringify(data);
-    //             break;
-    //         // case 'get':
-    //         //     data = qs.stringify(data, { arrayFormat: 'repeat' });
-    //         //     break;
-    //         default:
-    //             data = JSON.stringify(data);
-    //     }
-    //     return data;
-    // }
-
-    private async makeRequest(path: string, method: string, body?: BodyInit): Promise<string> {
+    private async makeRequest<T>(path: string, method: string, body?: BodyInit): Promise<T> {
         method = method.toLowerCase();
 
+        const requestOptions = {
+            method,
+            ...this.options,
+        };
+
+        if (method === 'post' || method === 'patch' || method === 'put') {
+            requestOptions.body = body ? JSON.stringify(body) : null;
+        }
+
         try {
-            const request = await fetch(path, {
-                method,
-                ...this.options,
-                body,
-            });
+            const request = await fetch(path, requestOptions);
+
             return request.json();
         } catch (error) {
             throw new Error(error);

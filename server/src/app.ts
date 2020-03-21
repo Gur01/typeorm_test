@@ -18,7 +18,7 @@ app.use((req, res, next) => {
     next();
 });
 //router
-app.use('/api/users', router.users);
+app.use('/api/user', router.users);
 app.use('/api/lists', router.lists);
 
 // catch 404 and forward to error handler

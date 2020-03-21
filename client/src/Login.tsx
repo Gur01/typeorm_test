@@ -1,9 +1,10 @@
 import React from 'react';
+import request from './api';
 
-const Register = ({ history }) => {
+const Login = ({ history }) => {
     const [state, setState] = React.useState({
-        email: '',
-        password: '',
+        email: 'vas',
+        password: '1111',
     });
 
     const handleEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
@@ -16,22 +17,11 @@ const Register = ({ history }) => {
 
     const handleLogin = async event => {
         event.preventDefault();
-        try {
-            const response = await fetch('http://localhost:4000/api/users/login', {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(state),
-            });
-            console.log(response);
 
-            const token = await response.text();
-
+        request.loginUser(state).then(token => {
             localStorage.setItem('token', token);
-        } catch (error) {
-            console.error(error);
-        }
+            history.push('/');
+        });
     };
 
     return (
@@ -48,4 +38,4 @@ const Register = ({ history }) => {
     );
 };
 
-export default Register;
+export default Login;

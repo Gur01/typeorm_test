@@ -1,8 +1,6 @@
 import React from 'react';
-import Header from './Header';
 import request from './api';
-
-console.log(request);
+import Header from './Header';
 
 const Home = () => {
     interface Users {
@@ -15,17 +13,10 @@ const Home = () => {
 
     const [users, setUsers] = React.useState<Users[]>([]);
 
-    // const getUsers = async () => {
-    //     try {
-    //         const users = await request.get('api/users');
-    //         setUsers(users);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
     React.useEffect(() => {
-        request.getUsers().then(users => setUsers(users));
+        request.getUsers().then(users => {
+            setUsers(users);
+        });
     }, []);
 
     return (

@@ -13,7 +13,7 @@ router.get('/', async (req: Request, res: Response) => {
     try {
         const allUsers = await userRepository.find();
 
-        res.json(JSON.stringify(allUsers));
+        res.json(allUsers);
     } catch (error) {
         console.log(error);
     }
@@ -25,7 +25,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     try {
         const user = await userRepository.findOne({ id });
-        res.json(JSON.stringify(user));
+        res.json(user);
     } catch (error) {
         console.log(error);
     }
@@ -57,7 +57,7 @@ router.post('/register', async (req: Request, res: Response) => {
             process.env.ACCESS_TOKEN_SECRET as string,
         );
 
-        res.send(token);
+        res.json(token);
     } catch (error) {
         res.status(500).send();
         console.log(error);
@@ -87,7 +87,7 @@ router.post('/login', async (req: Request, res: Response) => {
                     process.env.ACCESS_TOKEN_SECRET as string,
                 );
 
-                res.send(token);
+                res.json(token);
             } else {
                 res.status(401).send('Invalid username or password');
             }

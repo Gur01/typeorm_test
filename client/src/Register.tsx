@@ -24,7 +24,7 @@ const Register = ({ history }) => {
     const handleSave = async event => {
         event.preventDefault();
         try {
-            const response = await fetch('http://localhost:4000/api/users/register', {
+            const response = await fetch('http://localhost:4000/api/user/register', {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json',
