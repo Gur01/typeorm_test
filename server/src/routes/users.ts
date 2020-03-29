@@ -4,6 +4,7 @@ import { getRepository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import auth from '../middleware/auth';
+import { json } from 'express';
 
 const router: Router = express.Router();
 
@@ -30,10 +31,11 @@ router.get('/', async (req: Request, res: Response) => {
 //         console.log(error);
 //     }
 // });
-interface NewRequest extends Request {
-    user: { id: number };
-    iat: number;
-}
+
+// interface NewRequest extends Request {
+//     user: { id: number };
+//     iat: number;
+// }
 
 router.get('/user/profile', auth, async (req: any, res: Response) => {
     const userId = req.user.id;
@@ -89,8 +91,10 @@ router.post('/user/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     if (!email || !email) {
-        res.status(500).send('wrong credentials');
+        res.status(401).json('Unauthorized');
+        return;
     }
+    //TODO add error handling
 
     const userRepository = getRepository(Users);
 
@@ -98,7 +102,7 @@ router.post('/user/login', async (req: Request, res: Response) => {
         const user = await userRepository.findOne({ email });
 
         if (!user) {
-            res.status(401).send('Invalid username or password');
+            res.status(401).json('Unauthorized');
         } else {
             const checking = await bcrypt.compare(password, user.password);
 
@@ -110,7 +114,7 @@ router.post('/user/login', async (req: Request, res: Response) => {
 
                 res.json(token);
             } else {
-                res.status(401).send('Invalid username or password');
+                res.status(401).json('Invalid username or password');
             }
         }
     } catch (error) {

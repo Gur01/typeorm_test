@@ -12,26 +12,15 @@ class Request {
             this.options = { ...this.options, ...options };
         }
 
-        try {
-            const request = await this.makeRequest(`${this.baseUrl}/${path}`, 'get');
-
-            return request;
-        } catch (error) {
-            throw new Error(error);
-        }
+        return await this.makeRequest(`${this.baseUrl}/${path}`, 'get');
     }
 
     async post(path, body, options?: RequestInit) {
         if (options) {
             this.options = { ...this.options, ...options };
         }
-        try {
-            const request = await this.makeRequest(`${this.baseUrl}/${path}`, 'post', body);
 
-            return request;
-        } catch (error) {
-            throw new Error(error);
-        }
+        return await this.makeRequest(`${this.baseUrl}/${path}`, 'post', body);
     }
 
     private async makeRequest<T>(path: string, method: string, body?: BodyInit): Promise<T> {
@@ -47,11 +36,23 @@ class Request {
         }
 
         try {
-            const request = await fetch(path, requestOptions);
+            const response = await fetch(path, requestOptions);
 
-            return request.json();
+            //TODO error interceptors
+            if (!response.ok) {
+                const errorObject = {
+                    status: response.status,
+                    statusText: response.statusText,
+                    url: response.url,
+                    ok: response.ok,
+                };
+
+                return Promise.reject(errorObject);
+            } else {
+                return response.json();
+            }
         } catch (error) {
-            throw new Error(error);
+            console.log(error);
         }
     }
 }

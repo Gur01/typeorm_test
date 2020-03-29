@@ -1,11 +1,13 @@
 import React from 'react';
-import request from './api';
+import api from './api';
 
 const Login = ({ history }) => {
     const [state, setState] = React.useState({
         email: '',
         password: '',
     });
+
+    const [errorLogin, setErrorLogin] = React.useState(false);
 
     const handleEmailChange = (e: React.FormEvent<HTMLInputElement>) => {
         setState({ ...state, email: e.currentTarget.value });
@@ -18,11 +20,18 @@ const Login = ({ history }) => {
     const handleLogin = async event => {
         event.preventDefault();
 
-        request.loginUser(state).then(token => {
-            localStorage.setItem('token', token);
+        api.loginUser(state)
+            .then(token => {
+                // request.options.headers.Authorization = token
+                api.request.options.headers.Authorization = `Bearer ${token}`;
+                localStorage.setItem('token', token);
+                console.log(api, 'login');
 
-            history.push('/');
-        });
+                history.push('/');
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
 
     return (

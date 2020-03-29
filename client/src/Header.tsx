@@ -1,27 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
-import UserContext from './UserContext';
 import { Link } from 'react-router-dom';
+import request from './api';
+import { useHistory } from 'react-router-dom';
+import UserContext from './UserContext';
 
 const Header = () => {
-    const user = React.useContext(UserContext);
+    const history = useHistory();
+    const { user, setUser } = React.useContext(UserContext);
+
+    React.useEffect(() => {
+        if (!user) {
+            request.getUserProfile().then(user => {
+                setUser(user);
+            });
+        }
+    }, []);
 
     const logout = () => {
+        setUser(null);
         localStorage.removeItem('token');
+        history.push('/');
     };
+
     return (
         <CustomHeader>
             <p>
                 <Link to="/login">Login</Link>
             </p>
             <p>
-                <Link to="/home">Home</Link>
+                <Link to="/">Home</Link>
             </p>
             <p>
                 <Link to="/admin">Admin</Link>
             </p>
 
-            <h1>hello {user.name}</h1>
+            <h1>hello {user && user.name}</h1>
             <button onClick={logout}>logout</button>
         </CustomHeader>
     );

@@ -1,5 +1,5 @@
-import Request from './Request';
-import methods from './methods';
+import Request from './Request/Request';
+import Api from './Api';
 
 const token = localStorage.getItem('token') || '';
 
@@ -11,4 +11,4 @@ const request = new Request('http://localhost:4000/api', {
     },
 });
 
-export default methods(request);
+export default new Api(request);

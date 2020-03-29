@@ -1,6 +1,6 @@
 declare module 'express' {
     interface Request {
-        user: { id: number };
+        user: { token: string };
         iat: number;
     }
 }

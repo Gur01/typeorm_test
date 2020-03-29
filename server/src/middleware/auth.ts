@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction } from 'express';
+// import { Response, Request, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
 type User = {
@@ -11,7 +11,7 @@ type User = {
 //     iat: number;
 // }
 
-const authenticate = (req: any, res: Response, next: NextFunction) => {
+const authenticate = (req: any, res: any, next: any) => {
     const authHeader = req.headers['authorization'];
 
     const token = authHeader && authHeader.split(' ')[1];
